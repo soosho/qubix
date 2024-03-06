@@ -1,21 +1,21 @@
 
 Debian
 ====================
-This directory contains files used to package qubixd/qubix-qt
-for Debian-based Linux systems. If you compile qubixd/qubix-qt yourself, there are some useful files here.
+This directory contains files used to package thetad/theta-qt
+for Debian-based Linux systems. If you compile thetad/theta-qt yourself, there are some useful files here.
 
-## qubix: URI support ##
+## theta: URI support ##
 
 
-qubix-qt.desktop  (Gnome / Open Desktop)
+theta-qt.desktop  (Gnome / Open Desktop)
 To install:
 
-	sudo desktop-file-install qubix-qt.desktop
+	sudo desktop-file-install theta-qt.desktop
 	sudo update-desktop-database
 
 If you build yourself, you will either need to modify the paths in
-the .desktop file or copy or symlink your qubix-qt binary to `/usr/bin`
-and the `../../share/pixmaps/qubix128.png` to `/usr/share/pixmaps`
+the .desktop file or copy or symlink your theta-qt binary to `/usr/bin`
+and the `../../share/pixmaps/theta128.png` to `/usr/share/pixmaps`
 
-qubix-qt.protocol (KDE)
+theta-qt.protocol (KDE)
 

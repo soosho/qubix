@@ -1,6 +1,6 @@
 # Copyright (c) 2013-2016 The Bitcoin Core developers
 # Copyright (c) 2014-2018 The Dash Core developers
-# Copyright (c) 2020-2022 The Qubix developers
+# Copyright (c) 2020-2022 The Theta developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -49,36 +49,36 @@ BITCOIN_INCLUDES += $(UNIVALUE_CFLAGS)
 
 BLS_LIBS=-lbls-dash -lgmp
 
-LIBBITCOIN_SERVER=libqubix_server.a
-LIBBITCOIN_COMMON=libqubix_common.a
-LIBBITCOIN_CONSENSUS=libqubix_consensus.a
-LIBBITCOIN_CLI=libqubix_cli.a
-LIBBITCOIN_UTIL=libqubix_util.a
-LIBBITCOIN_CRYPTO_BASE=crypto/libqubix_crypto_base.a
-LIBBITCOINQT=qt/libqubixqt.a
+LIBBITCOIN_SERVER=libtheta_server.a
+LIBBITCOIN_COMMON=libtheta_common.a
+LIBBITCOIN_CONSENSUS=libtheta_consensus.a
+LIBBITCOIN_CLI=libtheta_cli.a
+LIBBITCOIN_UTIL=libtheta_util.a
+LIBBITCOIN_CRYPTO_BASE=crypto/libtheta_crypto_base.a
+LIBBITCOINQT=qt/libthetaqt.a
 LIBSECP256K1=secp256k1/libsecp256k1.la
 
 if ENABLE_ZMQ
-LIBBITCOIN_ZMQ=libqubix_zmq.a
+LIBBITCOIN_ZMQ=libtheta_zmq.a
 endif
 if BUILD_BITCOIN_LIBS
-LIBBITCOINCONSENSUS=libqubixconsensus.la
+LIBBITCOINCONSENSUS=libthetaconsensus.la
 endif
 if ENABLE_WALLET
-LIBBITCOIN_WALLET=libqubix_wallet.a
+LIBBITCOIN_WALLET=libtheta_wallet.a
 endif
 
 LIBBITCOIN_CRYPTO= $(LIBBITCOIN_CRYPTO_BASE)
 if ENABLE_SSE41
-LIBBITCOIN_CRYPTO_SSE41 = crypto/libqubix_crypto_sse41.a
+LIBBITCOIN_CRYPTO_SSE41 = crypto/libtheta_crypto_sse41.a
 LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_SSE41)
 endif
 if ENABLE_AVX2
-LIBBITCOIN_CRYPTO_AVX2 = crypto/libqubix_crypto_avx2.a
+LIBBITCOIN_CRYPTO_AVX2 = crypto/libtheta_crypto_avx2.a
 LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_AVX2)
 endif
 if ENABLE_SHANI
-LIBBITCOIN_CRYPTO_SHANI = crypto/libqubix_crypto_shani.a
+LIBBITCOIN_CRYPTO_SHANI = crypto/libtheta_crypto_shani.a
 LIBBITCOIN_CRYPTO += $(LIBBITCOIN_CRYPTO_SHANI)
 endif
 
@@ -105,15 +105,15 @@ TESTS =
 BENCHMARKS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += qubixd
+  bin_PROGRAMS += thetad
 endif
 
 if BUILD_BITCOIN_UTILS
-  bin_PROGRAMS += qubix-cli qubix-tx
+  bin_PROGRAMS += theta-cli theta-tx
 endif
 
 .PHONY: FORCE check-symbols check-security
-# qubix core #
+# theta core #
 BITCOIN_CORE_H = \
   addrdb.h \
   addressindex.h \
@@ -294,12 +294,12 @@ obj/build.h: FORCE
 	@$(MKDIR_P) $(builddir)/obj
 	@$(top_srcdir)/share/genbuild.sh "$(abs_top_builddir)/src/obj/build.h" \
 	  "$(abs_top_srcdir)"
-libqubix_util_a-clientversion.$(OBJEXT): obj/build.h
+libtheta_util_a-clientversion.$(OBJEXT): obj/build.h
 
-# server: shared between qubixd and qubix-qt
-libqubix_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
-libqubix_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libqubix_server_a_SOURCES = \
+# server: shared between thetad and theta-qt
+libtheta_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
+libtheta_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libtheta_server_a_SOURCES = \
   addrdb.cpp \
   addrman.cpp \
   batchedlogger.cpp \
@@ -386,9 +386,9 @@ libqubix_server_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 if ENABLE_ZMQ
-libqubix_zmq_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
-libqubix_zmq_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libqubix_zmq_a_SOURCES = \
+libtheta_zmq_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
+libtheta_zmq_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libtheta_zmq_a_SOURCES = \
   zmq/zmqabstractnotifier.cpp \
   zmq/zmqnotificationinterface.cpp \
   zmq/zmqpublishnotifier.cpp \
@@ -396,11 +396,11 @@ libqubix_zmq_a_SOURCES = \
 endif
 
 
-# wallet: shared between qubixd and qubix-qt, but only linked
+# wallet: shared between thetad and theta-qt, but only linked
 # when wallet enabled
-libqubix_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libqubix_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libqubix_wallet_a_SOURCES = \
+libtheta_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libtheta_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libtheta_wallet_a_SOURCES = \
   coinjoin/coinjoin-client.cpp \
   coinjoin/coinjoin-client-options.cpp \
   coinjoin/coinjoin-util.cpp \
@@ -419,9 +419,9 @@ libqubix_wallet_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 # crypto primitives library
-crypto_libqubix_crypto_base_a_CPPFLAGS = $(AM_CPPFLAGS) $(PIC_FLAGS)
-crypto_libqubix_crypto_base_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) $(PIC_FLAGS)
-crypto_libqubix_crypto_base_a_SOURCES = \
+crypto_libtheta_crypto_base_a_CPPFLAGS = $(AM_CPPFLAGS) $(PIC_FLAGS)
+crypto_libtheta_crypto_base_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) $(PIC_FLAGS)
+crypto_libtheta_crypto_base_a_SOURCES = \
   crypto/aes.cpp \
   crypto/aes.h \
   crypto/chacha_poly_aead.h \
@@ -507,31 +507,31 @@ crypto_libqubix_crypto_base_a_SOURCES = \
   crypto/sha512.h
 
 if USE_ASM
-crypto_libqubix_crypto_base_a_SOURCES += crypto/sha256_sse4.cpp
+crypto_libtheta_crypto_base_a_SOURCES += crypto/sha256_sse4.cpp
 endif
 
-crypto_libqubix_crypto_sse41_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-crypto_libqubix_crypto_sse41_a_CPPFLAGS = $(AM_CPPFLAGS)
-crypto_libqubix_crypto_sse41_a_CXXFLAGS += $(SSE41_CXXFLAGS)
-crypto_libqubix_crypto_sse41_a_CPPFLAGS += -DENABLE_SSE41
-crypto_libqubix_crypto_sse41_a_SOURCES = crypto/sha256_sse41.cpp
+crypto_libtheta_crypto_sse41_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+crypto_libtheta_crypto_sse41_a_CPPFLAGS = $(AM_CPPFLAGS)
+crypto_libtheta_crypto_sse41_a_CXXFLAGS += $(SSE41_CXXFLAGS)
+crypto_libtheta_crypto_sse41_a_CPPFLAGS += -DENABLE_SSE41
+crypto_libtheta_crypto_sse41_a_SOURCES = crypto/sha256_sse41.cpp
 
-crypto_libqubix_crypto_avx2_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-crypto_libqubix_crypto_avx2_a_CPPFLAGS = $(AM_CPPFLAGS)
-crypto_libqubix_crypto_avx2_a_CXXFLAGS += $(AVX2_CXXFLAGS)
-crypto_libqubix_crypto_avx2_a_CPPFLAGS += -DENABLE_AVX2
-crypto_libqubix_crypto_avx2_a_SOURCES = crypto/sha256_avx2.cpp
+crypto_libtheta_crypto_avx2_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+crypto_libtheta_crypto_avx2_a_CPPFLAGS = $(AM_CPPFLAGS)
+crypto_libtheta_crypto_avx2_a_CXXFLAGS += $(AVX2_CXXFLAGS)
+crypto_libtheta_crypto_avx2_a_CPPFLAGS += -DENABLE_AVX2
+crypto_libtheta_crypto_avx2_a_SOURCES = crypto/sha256_avx2.cpp
 
-crypto_libqubix_crypto_shani_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-crypto_libqubix_crypto_shani_a_CPPFLAGS = $(AM_CPPFLAGS)
-crypto_libqubix_crypto_shani_a_CXXFLAGS += $(SHANI_CXXFLAGS)
-crypto_libqubix_crypto_shani_a_CPPFLAGS += -DENABLE_SHANI
-crypto_libqubix_crypto_shani_a_SOURCES = crypto/sha256_shani.cpp
+crypto_libtheta_crypto_shani_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+crypto_libtheta_crypto_shani_a_CPPFLAGS = $(AM_CPPFLAGS)
+crypto_libtheta_crypto_shani_a_CXXFLAGS += $(SHANI_CXXFLAGS)
+crypto_libtheta_crypto_shani_a_CPPFLAGS += -DENABLE_SHANI
+crypto_libtheta_crypto_shani_a_SOURCES = crypto/sha256_shani.cpp
 
 # consensus: shared between all executables that validate any consensus rules.
-libqubix_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libqubix_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libqubix_consensus_a_SOURCES = \
+libtheta_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libtheta_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libtheta_consensus_a_SOURCES = \
   amount.h \
   founder_payment.h \
   arith_uint256.cpp \
@@ -555,7 +555,7 @@ libqubix_consensus_a_SOURCES = \
   primitives/transaction.h \
   pubkey.cpp \
   pubkey.h \
-  script/qubixconsensus.cpp \
+  script/thetaconsensus.cpp \
   script/interpreter.cpp \
   script/interpreter.h \
   script/script.cpp \
@@ -572,10 +572,10 @@ libqubix_consensus_a_SOURCES = \
   utilstrencodings.h \
   version.h
 
-# common: shared between qubixd, and qubix-qt and non-server tools
-libqubix_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libqubix_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libqubix_common_a_SOURCES = \
+# common: shared between thetad, and theta-qt and non-server tools
+libtheta_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libtheta_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libtheta_common_a_SOURCES = \
   base58.cpp \
   bech32.cpp \
   founder_payment.cpp \
@@ -606,9 +606,9 @@ libqubix_common_a_SOURCES = \
 # util: shared between all executables.
 # This library *must* be included to make sure that the glibc
 # backward-compatibility objects and their sanity checks are linked.
-libqubix_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libqubix_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libqubix_util_a_SOURCES = \
+libtheta_util_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libtheta_util_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libtheta_util_a_SOURCES = \
   bls/bls_batchverifier.h \
   bls/bls_ies.cpp \
   bls/bls_ies.h \
@@ -637,31 +637,31 @@ libqubix_util_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 if GLIBC_BACK_COMPAT
-libqubix_util_a_SOURCES += compat/glibc_compat.cpp
+libtheta_util_a_SOURCES += compat/glibc_compat.cpp
 AM_LDFLAGS += -Wl,--wrap=log2f -Wl,--wrap=__divmoddi4
 endif
 
-# cli: shared between qubix-cli and qubix-qt
-libqubix_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-libqubix_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libqubix_cli_a_SOURCES = \
+# cli: shared between theta-cli and theta-qt
+libtheta_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libtheta_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libtheta_cli_a_SOURCES = \
   rpc/client.cpp \
   $(BITCOIN_CORE_H)
 
-nodist_libqubix_util_a_SOURCES = $(srcdir)/obj/build.h
+nodist_libtheta_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
-# qubixd binary #
-qubixd_SOURCES = qubixd.cpp
-qubixd_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-qubixd_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-qubixd_LDFLAGS = $(LDFLAGS_WRAP_EXCEPTIONS) $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+# thetad binary #
+thetad_SOURCES = thetad.cpp
+thetad_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+thetad_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+thetad_LDFLAGS = $(LDFLAGS_WRAP_EXCEPTIONS) $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-qubixd_SOURCES += qubixd-res.rc
+thetad_SOURCES += thetad-res.rc
 endif
 
-qubixd_LDADD = \
+thetad_LDADD = \
   $(LIBBITCOIN_SERVER) \
   $(LIBBITCOIN_WALLET) \
   $(LIBBITCOIN_COMMON) \
@@ -675,37 +675,37 @@ qubixd_LDADD = \
   $(LIBMEMENV) \
   $(LIBSECP256K1)
 
-qubixd_LDADD += $(BACKTRACE_LIB) $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS) $(BLS_LIBS)
+thetad_LDADD += $(BACKTRACE_LIB) $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS) $(BLS_LIBS)
 
-# qubix-cli binary #
-qubix_cli_SOURCES = qubix-cli.cpp
-qubix_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-qubix_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-qubix_cli_LDFLAGS = $(LDFLAGS_WRAP_EXCEPTIONS) $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+# theta-cli binary #
+theta_cli_SOURCES = theta-cli.cpp
+theta_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+theta_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+theta_cli_LDFLAGS = $(LDFLAGS_WRAP_EXCEPTIONS) $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-qubix_cli_SOURCES += qubix-cli-res.rc
+theta_cli_SOURCES += theta-cli-res.rc
 endif
 
-qubix_cli_LDADD = \
+theta_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO)
-qubix_cli_LDADD += $(BACKTRACE_LIB) $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS) $(BLS_LIBS)
+theta_cli_LDADD += $(BACKTRACE_LIB) $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS) $(BLS_LIBS)
 #
 
-# qubix-tx binary #
-qubix_tx_SOURCES = qubix-tx.cpp
-qubix_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-qubix_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-qubix_tx_LDFLAGS = $(LDFLAGS_WRAP_EXCEPTIONS) $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+# theta-tx binary #
+theta_tx_SOURCES = theta-tx.cpp
+theta_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+theta_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+theta_tx_LDFLAGS = $(LDFLAGS_WRAP_EXCEPTIONS) $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-qubix_tx_SOURCES += qubix-tx-res.rc
+theta_tx_SOURCES += theta-tx-res.rc
 endif
 
-qubix_tx_LDADD = \
+theta_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
@@ -713,22 +713,22 @@ qubix_tx_LDADD = \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBSECP256K1)
 
-qubix_tx_LDADD += $(BACKTRACE_LIB) $(BOOST_LIBS) $(CRYPTO_LIBS) $(BLS_LIBS)
+theta_tx_LDADD += $(BACKTRACE_LIB) $(BOOST_LIBS) $(CRYPTO_LIBS) $(BLS_LIBS)
 #
 
-# qubixconsensus library #
+# thetaconsensus library #
 if BUILD_BITCOIN_LIBS
-include_HEADERS = script/qubixconsensus.h
-libqubixconsensus_la_SOURCES = support/cleanse.cpp $(crypto_libqubix_crypto_base_a_SOURCES) $(libqubix_consensus_a_SOURCES)
+include_HEADERS = script/thetaconsensus.h
+libthetaconsensus_la_SOURCES = support/cleanse.cpp $(crypto_libtheta_crypto_base_a_SOURCES) $(libtheta_consensus_a_SOURCES)
 
 if GLIBC_BACK_COMPAT
-  libqubixconsensus_la_SOURCES += compat/glibc_compat.cpp
+  libthetaconsensus_la_SOURCES += compat/glibc_compat.cpp
 endif
 
-libqubixconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS) $(LIBTOOL_APP_LDFLAGS)
-libqubixconsensus_la_LIBADD = $(LIBSECP256K1) $(BLS_LIBS)
-libqubixconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
-libqubixconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libthetaconsensus_la_LDFLAGS = $(AM_LDFLAGS) -no-undefined $(RELDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+libthetaconsensus_la_LIBADD = $(LIBSECP256K1) $(BLS_LIBS)
+libthetaconsensus_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(builddir)/obj -I$(srcdir)/secp256k1/include -DBUILD_BITCOIN_INTERNAL
+libthetaconsensus_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
 endif
 #
@@ -761,12 +761,12 @@ EXTRA_DIST = $(CTAES_DIST)
 EXTRA_DIST += $(IMMER_DIST)
 
 
-config/qubix-config.h: config/stamp-h1
+config/theta-config.h: config/stamp-h1
 	@$(MAKE) -C $(top_builddir) $(subdir)/$(@)
-config/stamp-h1: $(top_srcdir)/$(subdir)/config/qubix-config.h.in $(top_builddir)/config.status
+config/stamp-h1: $(top_srcdir)/$(subdir)/config/theta-config.h.in $(top_builddir)/config.status
 	$(AM_V_at)$(MAKE) -C $(top_builddir) $(subdir)/$(@)
-$(top_srcdir)/$(subdir)/config/qubix-config.h.in:  $(am__configure_deps)
-	$(AM_V_at)$(MAKE) -C $(top_srcdir) $(subdir)/config/qubix-config.h.in
+$(top_srcdir)/$(subdir)/config/theta-config.h.in:  $(am__configure_deps)
+	$(AM_V_at)$(MAKE) -C $(top_srcdir) $(subdir)/config/theta-config.h.in
 
 
 clean-local:

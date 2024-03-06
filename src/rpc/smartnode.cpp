@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2021 The Dash Core developers
-// Copyright (c) 2020-2022 The Qubix developers
+// Copyright (c) 2020-2022 The Theta developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -53,13 +53,13 @@ void smartnode_list_help()
             "  json           - Print info in JSON format (can be additionally filtered, partial match)\n"
             "  lastpaidblock  - Print the last block height a node was paid on the network\n"
             "  lastpaidtime   - Print the last time a node was paid on the network\n"
-            "  owneraddress   - Print the smartnode owner Qubix address\n"
-            "  payee          - Print the smartnode payout Qubix address (can be additionally filtered,\n"
+            "  owneraddress   - Print the smartnode owner Theta address\n"
+            "  payee          - Print the smartnode payout Theta address (can be additionally filtered,\n"
             "                   partial match)\n"
             "  pubKeyOperator - Print the smartnode operator public key\n"
             "  status         - Print smartnode status: ENABLED / POSE_BANNED\n"
             "                   (can be additionally filtered, partial match)\n"
-            "  votingaddress  - Print the smartnode voting Qubix address\n"
+            "  votingaddress  - Print the smartnode voting Theta address\n"
         );
 }
 
@@ -245,15 +245,11 @@ UniValue smartnode_status(const JSONRPCRequest& request)
 
     UniValue mnObj(UniValue::VOBJ);
 
-    CDeterministicMNCPtr dmn;
-    {
-        LOCK(activeSmartnodeInfoCs);
+    // keep compatibility with legacy status for now (might get deprecated/removed later)
+    mnObj.pushKV("outpoint", activeSmartnodeInfo.outpoint.ToStringShort());
+    mnObj.pushKV("service", activeSmartnodeInfo.service.ToString());
 
-        // keep compatibility with legacy status for now (might get deprecated/removed later)
-        mnObj.pushKV("outpoint", activeSmartnodeInfo.outpoint.ToStringShort());
-        mnObj.pushKV("service", activeSmartnodeInfo.service.ToString());
-        dmn = deterministicMNManager->GetListAtChainTip().GetMN(activeSmartnodeInfo.proTxHash);
-    }
+    auto dmn = deterministicMNManager->GetListAtChainTip().GetMN(activeSmartnodeInfo.proTxHash);
     if (dmn) {
         mnObj.pushKV("proTxHash", dmn->proTxHash.ToString());
         mnObj.pushKV("collateralHash", dmn->collateralOutpoint.hash.ToString());
@@ -671,7 +667,6 @@ UniValue smartnodelist(const JSONRPCRequest& request)
             objMN.pushKV("votingaddress", EncodeDestination(dmn->pdmnState->keyIDVoting));
             objMN.pushKV("collateraladdress", collateralAddressStr);
             objMN.pushKV("pubkeyoperator", dmn->pdmnState->pubKeyOperator.Get().ToString());
-            objMN.pushKV("posepenalty", dmn->pdmnState->nPoSePenalty);
             obj.pushKV(strOutpoint, objMN);
         } else if (strMode == "lastpaidblock") {
             if (strFilter !="" && strOutpoint.find(strFilter) == std::string::npos) return;
@@ -706,8 +701,8 @@ UniValue smartnodelist(const JSONRPCRequest& request)
 static const CRPCCommand commands[] =
 { //  category              name                      actor (function)         argNames
   //  --------------------- ------------------------  -----------------------  ----------
-    { "qubix",               "smartnode",             &smartnode,             {} },
-    { "qubix",               "smartnodelist",         &smartnodelist,         {} },
+    { "theta",               "smartnode",             &smartnode,             {} },
+    { "theta",               "smartnodelist",         &smartnodelist,         {} },
 };
 
 void RegisterSmartnodeRPCCommands(CRPCTable &t)

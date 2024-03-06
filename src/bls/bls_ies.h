@@ -1,10 +1,10 @@
 // Copyright (c) 2018 The Dash Core developers
-// Copyright (c) 2020-2022 The Qubix developers
+// Copyright (c) 2020-2022 The Theta developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef QUBIX_CRYPTO_BLS_IES_H
-#define QUBIX_CRYPTO_BLS_IES_H
+#ifndef THETA_CRYPTO_BLS_IES_H
+#define THETA_CRYPTO_BLS_IES_H
 
 #include <bls/bls.h>
 #include <streams.h>
@@ -167,4 +167,4 @@ public:
     }
 };
 
-#endif // QUBIX_CRYPTO_BLS_IES_H
+#endif // THETA_CRYPTO_BLS_IES_H

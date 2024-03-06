@@ -1,10 +1,10 @@
 // Copyright (c) 2018-2020 The Dash Core developers
-// Copyright (c) 2020-2022 The Qubix developers
+// Copyright (c) 2020-2022 The Theta developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef QUBIX_BATCHEDLOGGER_H
-#define QUBIX_BATCHEDLOGGER_H
+#ifndef THETA_BATCHEDLOGGER_H
+#define THETA_BATCHEDLOGGER_H
 
 #include "tinyformat.h"
 
@@ -30,4 +30,4 @@ public:
     void Flush();
 };
 
-#endif//QUBIX_BATCHEDLOGGER_H
+#endif//THETA_BATCHEDLOGGER_H

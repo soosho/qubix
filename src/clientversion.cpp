@@ -9,10 +9,10 @@
 
 /**
  * Name of client reported in the 'version' message. Report the same name
- * for both qubixd and qubix-qt, to make it harder for attackers to
+ * for both thetad and theta-qt, to make it harder for attackers to
  * target servers or GUI users specifically.
  */
-const std::string CLIENT_NAME("Qubix Core");
+const std::string CLIENT_NAME("Theta Core");
 
 /**
  * Client version number
@@ -44,8 +44,8 @@ const std::string CLIENT_NAME("Qubix Core");
 //! git will put "#define GIT_ARCHIVE 1" on the next line inside archives. 
 #define GIT_ARCHIVE 1
 #ifdef GIT_ARCHIVE
-#define GIT_COMMIT_ID "87a504a20e37b827be3260acb5ae4a9ed70f20c8"
-#define GIT_COMMIT_DATE "Fri, 12 May 2023 06:11:30 -0700"
+#define GIT_COMMIT_ID "4842f65aa600b8eaf2b7ce6106d2e2584dcf5240"
+#define GIT_COMMIT_DATE "Thu, 7 Mar 2024 02:00:23 +0700"
 #endif
 
 #define BUILD_DESC_WITH_SUFFIX(maj, min, rev, build, suffix) \

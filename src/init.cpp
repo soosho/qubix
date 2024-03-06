@@ -1,12 +1,12 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2020 The Dash Core developers
-// Copyright (c) 2020-2022 The Qubix developers
+// Copyright (c) 2020-2022 The Theta developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include <config/qubix-config.h>
+#include <config/theta-config.h>
 #endif
 
 #include <init.h>
@@ -116,7 +116,7 @@ public:
     void Stop() const override {}
     void Close() const override {}
 
-    // Qubix Specific WalletInitInterface InitCoinJoinSettings
+    // Theta Specific WalletInitInterface InitCoinJoinSettings
     void AutoLockSmartnodeCollaterals() const override {}
     void InitCoinJoinSettings() const override {}
     void InitKeePass() const override {}
@@ -183,7 +183,7 @@ bool ShutdownRequested()
 /**
  * This is a minimally invasive approach to shutdown on LevelDB read errors from the
  * chainstate, while keeping user interface out of the common library, which is shared
- * between qubixd, and qubix-qt and non-server tools.
+ * between thetad, and theta-qt and non-server tools.
 */
 class CCoinsViewErrorCatcher final : public CCoinsViewBacked
 {
@@ -237,7 +237,7 @@ void PrepareShutdown()
     /// for example if the data directory was found to be locked.
     /// Be sure that anything that writes files or flushes caches only does this if the respective
     /// module was initialized.
-    RenameThread("qubix-shutoff");
+    RenameThread("theta-shutoff");
     mempool.AddTransactionsUpdated(1);
     StopHTTPRPC();
     StopREST();
@@ -351,12 +351,9 @@ void PrepareShutdown()
         UnregisterValidationInterface(activeSmartnodeManager);
     }
 
-    {
-        LOCK(activeSmartnodeInfoCs);
-        // make sure to clean up BLS keys before global destructors are called (they have allocated from the secure memory pool)
-        activeSmartnodeInfo.blsKeyOperator.reset();
-        activeSmartnodeInfo.blsPubKeyOperator.reset();
-    }
+    // make sure to clean up BLS keys before global destructors are called (they have allocated from the secure memory pool)
+    activeSmartnodeInfo.blsKeyOperator.reset();
+    activeSmartnodeInfo.blsPubKeyOperator.reset();
 
 #ifndef WIN32
     try {
@@ -499,7 +496,7 @@ void SetupServerArgs()
     gArgs.AddArg("-powcachesize", strprintf("Set max pow cache size (number of pow hashes) that keeping in memory (default: %d)", DEFAULT_POW_CACHE_SIZE), false, OptionsCategory::OPTIONS);
     gArgs.AddArg("-powmaxloadsize", strprintf("Set max pow cache load size (number of pow hashes) that to be written to powcache.dat (default: %d)", DEFAULT_MAX_LOAD_SIZE), false, OptionsCategory::OPTIONS);
     gArgs.AddArg("-powcachevalidate", "Enable validation of pow hashes from the cache (default: %true). Use of this option will significantly slow down wallet synchronization.", false, OptionsCategory::OPTIONS);
-
+    
     gArgs.AddArg("-addressindex", strprintf("Maintain a full address index, used to query for the balance, txids and unspent outputs for addresses (default: %u)", DEFAULT_ADDRESSINDEX), false, OptionsCategory::INDEXING);
     gArgs.AddArg("-reindex", "Rebuild chain state and block index from the blk*.dat files on disk", false, OptionsCategory::INDEXING);
     gArgs.AddArg("-reindex-chainstate", "Rebuild chain state from the currently indexed blocks", false, OptionsCategory::INDEXING);
@@ -507,7 +504,7 @@ void SetupServerArgs()
     gArgs.AddArg("-timestampindex", strprintf("Maintain a timestamp index for block hashes, used to query blocks hashes by a range of timestamps (default: %u)", DEFAULT_TIMESTAMPINDEX), false, OptionsCategory::INDEXING);
     gArgs.AddArg("-txindex", strprintf("Maintain a full transaction index, used by the getrawtransaction rpc call (default: %u)", DEFAULT_TXINDEX), false, OptionsCategory::INDEXING);
     gArgs.AddArg("-futureindex", strprintf("Maintain a full future index, used to query future transactions (default: %u)", DEFAULT_FUTUREINDEX), false, OptionsCategory::INDEXING);
-
+    
     gArgs.AddArg("-addnode=<ip>", "Add a node to connect to and attempt to keep the connection open (see the `addnode` RPC command help for more info). This option can be specified multiple times to add multiple nodes.", false, OptionsCategory::CONNECTION);
     gArgs.AddArg("-allowprivatenet", strprintf("Allow RFC1918 addresses to be relayed and connected to (default: %u)", DEFAULT_ALLOWPRIVATENET), false, OptionsCategory::CONNECTION);
     gArgs.AddArg("-banscore=<n>", strprintf("Threshold for disconnecting misbehaving peers (default: %u)", DEFAULT_BANSCORE_THRESHOLD), false, OptionsCategory::CONNECTION);
@@ -604,7 +601,7 @@ void SetupServerArgs()
     gArgs.AddArg("-printtoconsole", "Send trace/debug info to console instead of debug.log file", false, OptionsCategory::DEBUG_TEST);
     gArgs.AddArg("-printtodebuglog", strprintf("Send trace/debug info to debug.log file (default: %u)", 1), false, OptionsCategory::DEBUG_TEST);
     gArgs.AddArg("-shrinkdebugfile", "Shrink debug.log file on client startup (default: 1 when no -debug)", false, OptionsCategory::DEBUG_TEST);
-    gArgs.AddArg("-sporkaddr=<qubixaddress>", "Override spork address. Only useful for regtest and devnet. Using this on mainnet or testnet will ban you.", false, OptionsCategory::DEBUG_TEST);
+    gArgs.AddArg("-sporkaddr=<thetaaddress>", "Override spork address. Only useful for regtest and devnet. Using this on mainnet or testnet will ban you.", false, OptionsCategory::DEBUG_TEST);
     gArgs.AddArg("-sporkkey=<privatekey>", "Set the private key to be used for signing spork messages.", false, OptionsCategory::DEBUG_TEST);
     gArgs.AddArg("-uacomment=<cmt>", "Append comment to the user agent string", false, OptionsCategory::DEBUG_TEST);
 
@@ -613,7 +610,7 @@ void SetupServerArgs()
     gArgs.AddArg("-llmq-data-recovery=<n>", strprintf("Enable automated quorum data recovery (default: %u)", llmq::DEFAULT_ENABLE_QUORUM_DATA_RECOVERY), false, OptionsCategory::SMARTNODE);
     gArgs.AddArg("-llmq-qvvec-sync=<quorum_name>:<mode>", strprintf("Defines from which LLMQ type the smartnode should sync quorum verification vectors. Can be used multiple times with different LLMQ types. <mode>: %d (sync always from all quorums of the type defined by <quorum_name>), %d (sync from all quorums of the type defined by <quorum_name> if a member of any of the quorums)", (int32_t)llmq::QvvecSyncMode::Always, (int32_t)llmq::QvvecSyncMode::OnlyIfTypeMember), false, OptionsCategory::SMARTNODE);
     gArgs.AddArg("-smartnodeblsprivkey=<hex>", "Set the smartnode BLS private key and enable the client to act as a smartnode", false, OptionsCategory::SMARTNODE);
-    gArgs.AddArg("-platform-user=<user>", "Set the username for the \"platform user\", a restricted user intended to be used by Qubix Platform, to the specified username.", false, OptionsCategory::SMARTNODE);
+    gArgs.AddArg("-platform-user=<user>", "Set the username for the \"platform user\", a restricted user intended to be used by Theta Platform, to the specified username.", false, OptionsCategory::SMARTNODE);
 
     gArgs.AddArg("-acceptnonstdtxn", strprintf("Relay and mine \"non-standard\" transactions (%sdefault: %u)", "testnet/regtest only; ", !testnetChainParams->RequireStandard()), true, OptionsCategory::NODE_RELAY);
     gArgs.AddArg("-dustrelayfee=<amt>", strprintf("Fee rate (in %s/kB) used to defined dust, the value of an output such that it will cost more than its value in fees at this fee rate to spend it. (default: %s)", CURRENCY_UNIT, FormatMoney(DUST_RELAY_TX_FEE)), true, OptionsCategory::NODE_RELAY);
@@ -653,8 +650,8 @@ void SetupServerArgs()
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/qubixchain/qubix>";
-    const std::string URL_WEBSITE = "<https://qubix.com>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/thetaspere/theta>";
+    const std::string URL_WEBSITE = "<https://thetaspere.com>";
 
     return CopyrightHolders(_("Copyright (C)"), 2014, COPYRIGHT_YEAR) + "\n" +
            "\n" +
@@ -759,7 +756,7 @@ void CleanupBlockRevFiles()
 void ThreadImport(std::vector<fs::path> vImportFiles)
 {
     const CChainParams& chainparams = Params();
-    RenameThread("qubix-loadblk");
+    RenameThread("theta-loadblk");
     ScheduleBatchPriority();
 
     {
@@ -916,7 +913,7 @@ void PeriodicStats()
 }
 
 /** Sanity checks
- *  Ensure that Qubix Core is running in a usable environment with all
+ *  Ensure that Theta Core is running in a usable environment with all
  *  necessary library support.
  */
 bool InitSanityCheck(void)
@@ -1579,7 +1576,7 @@ bool AppInitParameterInteraction()
 
 static bool LockDataDirectory(bool probeOnly)
 {
-    // Make sure only a single Qubix Core process is using the data directory.
+    // Make sure only a single Theta Core process is using the data directory.
     fs::path datadir = GetDataDir();
     if (!DirIsWritable(datadir)) {
         return InitError(strprintf(_("Cannot write to data directory '%s'; check permissions."), datadir.string()));
@@ -1652,9 +1649,9 @@ bool AppInitMain()
     // Warn about relative -datadir path.
     if (gArgs.IsArgSet("-datadir") && !fs::path(gArgs.GetArg("-datadir", "")).is_absolute()) {
         LogPrintf("Warning: relative datadir option '%s' specified, which will be interpreted relative to the " /* Continued */
-                  "current working directory '%s'. This is fragile, because if Qubix Core is started in the future "
+                  "current working directory '%s'. This is fragile, because if Theta Core is started in the future "
                   "from a different location, it will be unable to locate the current data files. There could "
-                  "also be data loss if Qubix Core is started while in a temporary directory.\n",
+                  "also be data loss if Theta Core is started while in a temporary directory.\n",
             gArgs.GetArg("-datadir", ""), fs::current_path().string());
     }
 
@@ -2172,11 +2169,8 @@ bool AppInitMain()
             return InitError(_("Invalid smartnodeblsprivkey. Please see documentation."));
         }
         fSmartnodeMode = true;
-        {
-            LOCK(activeSmartnodeInfoCs);
-            activeSmartnodeInfo.blsKeyOperator = std::make_unique<CBLSSecretKey>(keyOperator);
-            activeSmartnodeInfo.blsPubKeyOperator = std::make_unique<CBLSPublicKey>(activeSmartnodeInfo.blsKeyOperator->GetPublicKey());
-        }
+        activeSmartnodeInfo.blsKeyOperator = std::make_unique<CBLSSecretKey>(keyOperator);
+        activeSmartnodeInfo.blsPubKeyOperator = std::make_unique<CBLSPublicKey>(activeSmartnodeInfo.blsKeyOperator->GetPublicKey());
         LogPrintf("SMARTNODE:\n");
         LogPrintf("  blsPubKeyOperator: %s\n", keyOperator.GetPublicKey().ToString());
     }
@@ -2187,14 +2181,11 @@ bool AppInitMain()
         RegisterValidationInterface(activeSmartnodeManager);
     }
 
-    {
-        LOCK(activeSmartnodeInfoCs);
-        if (activeSmartnodeInfo.blsKeyOperator == nullptr) {
-            activeSmartnodeInfo.blsKeyOperator = std::make_unique<CBLSSecretKey>();
-        }
-        if (activeSmartnodeInfo.blsPubKeyOperator == nullptr) {
-            activeSmartnodeInfo.blsPubKeyOperator = std::make_unique<CBLSPublicKey>();
-        }
+    if (activeSmartnodeInfo.blsKeyOperator == nullptr) {
+        activeSmartnodeInfo.blsKeyOperator = std::make_unique<CBLSSecretKey>();
+    }
+    if (activeSmartnodeInfo.blsPubKeyOperator == nullptr) {
+        activeSmartnodeInfo.blsPubKeyOperator = std::make_unique<CBLSPublicKey>();
     }
 
     // ********************************************************* Step 10b: setup CoinJoin
@@ -2260,7 +2251,7 @@ bool AppInitMain()
         }
     }
 
-    // ********************************************************* Step 10c: schedule Qubix-specific tasks
+    // ********************************************************* Step 10c: schedule Theta-specific tasks
 
     scheduler.scheduleEvery(std::bind(&CNetFulfilledRequestManager::DoMaintenance, std::ref(netfulfilledman)), 60 * 1000);
     scheduler.scheduleEvery(std::bind(&CSmartnodeSync::DoMaintenance, std::ref(smartnodeSync), std::ref(*g_connman)), 1 * 1000);

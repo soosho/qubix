@@ -7,10 +7,10 @@ BUILDDIR=${BUILDDIR:-$TOPDIR}
 BINDIR=${BINDIR:-$BUILDDIR/src}
 MANDIR=${MANDIR:-$TOPDIR/doc/man}
 
-BITCOIND=${BITCOIND:-$SRCDIR/qubixd}
-BITCOINCLI=${BITCOINCLI:-$SRCDIR/qubix-cli}
-BITCOINTX=${BITCOINTX:-$SRCDIR/qubix-tx}
-BITCOINQT=${BITCOINQT:-$SRCDIR/qt/qubix-qt}
+BITCOIND=${BITCOIND:-$SRCDIR/thetad}
+BITCOINCLI=${BITCOINCLI:-$SRCDIR/theta-cli}
+BITCOINTX=${BITCOINTX:-$SRCDIR/theta-tx}
+BITCOINQT=${BITCOINQT:-$SRCDIR/qt/theta-qt}
 
 [ ! -x $BITCOIND ] && echo "$BITCOIND not found or not executable." && exit 1
 
@@ -18,8 +18,8 @@ BITCOINQT=${BITCOINQT:-$SRCDIR/qt/qubix-qt}
 BTCVER=($($BITCOINCLI --version | head -n1 | awk -F'[ -]' '{ print $6, $7 }'))
 
 # Create a footer file with copyright content.
-# This gets autodetected fine for qubixd if --version-string is not set,
-# but has different outcomes for qubix-qt and qubix-cli.
+# This gets autodetected fine for thetad if --version-string is not set,
+# but has different outcomes for theta-qt and theta-cli.
 echo "[COPYRIGHT]" > footer.h2m
 $BITCOIND --version | sed -n '1!p' >> footer.h2m
 

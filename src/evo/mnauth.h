@@ -1,10 +1,10 @@
 // Copyright (c) 2019 The Dash Core developers
-// Copyright (c) 2020-2022 The Qubix developers
+// Copyright (c) 2020-2022 The Theta developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef QUBIX_MNAUTH_H
-#define QUBIX_MNAUTH_H
+#ifndef THETA_MNAUTH_H
+#define THETA_MNAUTH_H
 
 #include <bls/bls.h>
 #include <serialize.h>
@@ -56,4 +56,4 @@ public:
 };
 
 
-#endif //QUBIX_MNAUTH_H
+#endif //THETA_MNAUTH_H

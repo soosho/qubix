@@ -102,7 +102,7 @@ public:
         vOutpoints.assign(setSelected.begin(), setSelected.end());
     }
 
-    // Qubix-specific helpers
+    // Theta-specific helpers
 
     void UseCoinJoin(bool fUseCoinJoin)
     {

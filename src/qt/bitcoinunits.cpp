@@ -1,6 +1,6 @@
 // Copyright (c) 2011-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2020 The Dash Core developers
-// Copyright (c) 2020-2021 The Qubix developers
+// Copyright (c) 2020-2021 The Theta developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -21,9 +21,9 @@ BitcoinUnits::BitcoinUnits(QObject *parent):
 QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
 {
     QList<BitcoinUnits::Unit> unitlist;
-    unitlist.append(QXB);
-    unitlist.append(mQXB);
-    unitlist.append(uQXB);
+    unitlist.append(FITA);
+    unitlist.append(mFITA);
+    unitlist.append(uFITA);
     unitlist.append(ruffs);
     return unitlist;
 }
@@ -32,9 +32,9 @@ bool BitcoinUnits::valid(int unit)
 {
     switch(unit)
     {
-    case QXB:
-    case mQXB:
-    case uQXB:
+    case FITA:
+    case mFITA:
+    case uFITA:
     case ruffs:
         return true;
     default:
@@ -48,9 +48,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case QXB: return QString("QXB");
-            case mQXB: return QString("mQXB");
-            case uQXB: return QString::fromUtf8("μQXB");
+            case FITA: return QString("FITA");
+            case mFITA: return QString("mFITA");
+            case uFITA: return QString::fromUtf8("μFITA");
             case ruffs: return QString("ruffs");
             default: return QString("???");
         }
@@ -59,9 +59,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case QXB: return QString("tQXB");
-            case mQXB: return QString("mtQXB");
-            case uQXB: return QString::fromUtf8("μtQXB");
+            case FITA: return QString("tFITA");
+            case mFITA: return QString("mtFITA");
+            case uFITA: return QString::fromUtf8("μtFITA");
             case ruffs: return QString("truffs");
             default: return QString("???");
         }
@@ -74,10 +74,10 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case QXB: return QString("Qubix");
-            case mQXB: return QString("Milli-Qubix (1 / 1" THIN_SP_UTF8 "000)");
-            case uQXB: return QString("Micro-Qubix (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case ruffs: return QString("Ten Nano-Qubix (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case FITA: return QString("Theta");
+            case mFITA: return QString("Milli-Theta (1 / 1" THIN_SP_UTF8 "000)");
+            case uFITA: return QString("Micro-Theta (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case ruffs: return QString("Ten Nano-Theta (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -85,10 +85,10 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case QXB: return QString("TestQubixs");
-            case mQXB: return QString("Milli-TestQubix (1 / 1" THIN_SP_UTF8 "000)");
-            case uQXB: return QString("Micro-TestQubix (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case ruffs: return QString("Ten Nano-TestQubix (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case FITA: return QString("TestThetas");
+            case mFITA: return QString("Milli-TestTheta (1 / 1" THIN_SP_UTF8 "000)");
+            case uFITA: return QString("Micro-TestTheta (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case ruffs: return QString("Ten Nano-TestTheta (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -98,9 +98,9 @@ qint64 BitcoinUnits::factor(int unit)
 {
     switch(unit)
     {
-    case QXB:  return 100000000;
-    case mQXB: return 100000;
-    case uQXB: return 100;
+    case FITA:  return 100000000;
+    case mFITA: return 100000;
+    case uFITA: return 100;
     case ruffs: return 1;
     default:   return 100000000;
     }
@@ -110,9 +110,9 @@ int BitcoinUnits::decimals(int unit)
 {
     switch(unit)
     {
-    case QXB: return 8;
-    case mQXB: return 5;
-    case uQXB: return 2;
+    case FITA: return 8;
+    case mFITA: return 5;
+    case uFITA: return 2;
     case ruffs: return 0;
     default: return 0;
     }

@@ -8,7 +8,7 @@
 #include <script/script.h>
 #include <script/script_error.h>
 #include <script/standard.h>
-#include <test/test_qubix.h>
+#include <test/test_theta.h>
 
 #include <boost/test/unit_test.hpp>
 
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE(script_standard_Solver_success)
     // TX_NONSTANDARD
     s.clear();
     s << OP_9 << OP_ADD << OP_11 << OP_EQUAL;
-    BOOST_CHECK(!Solver(s, whichType, solutions));
+    BOOST_CHECK(Solver(s, whichType, solutions));
     BOOST_CHECK_EQUAL(whichType, TX_NONSTANDARD);
 }
 

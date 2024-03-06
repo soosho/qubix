@@ -1,10 +1,10 @@
 // Copyright (c) 2018-2019 The Dash Core developers
-// Copyright (c) 2020-2022 The Qubix developers
+// Copyright (c) 2020-2022 The Theta developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef QUBIX_CRYPTO_BLS_H
-#define QUBIX_CRYPTO_BLS_H
+#ifndef THETA_CRYPTO_BLS_H
+#define THETA_CRYPTO_BLS_H
 
 #include <hash.h>
 #include <serialize.h>
@@ -449,4 +449,4 @@ typedef std::shared_ptr<BLSSignatureVector> BLSSignatureVectorPtr;
 
 bool BLSInit();
 
-#endif // QUBIX_CRYPTO_BLS_H
+#endif // THETA_CRYPTO_BLS_H

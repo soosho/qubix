@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2020 The Dash Core developers
-// Copyright (c) 2020-2022 The Qubix developers
+// Copyright (c) 2020-2022 The Theta developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -56,7 +56,7 @@ void CCoinJoinServer::ProcessMessage(CNode* pfrom, const std::string& strCommand
         LogPrint(BCLog::COINJOIN, "DSACCEPT -- nDenom %d (%s)  txCollateral %s", dsa.nDenom, CCoinJoin::DenominationToString(dsa.nDenom), dsa.txCollateral.ToString()); /* Continued */
 
         auto mnList = deterministicMNManager->GetListAtChainTip();
-        auto dmn = WITH_LOCK(activeSmartnodeInfoCs, return mnList.GetValidMNByCollateral(activeSmartnodeInfo.outpoint));
+        auto dmn = mnList.GetValidMNByCollateral(activeSmartnodeInfo.outpoint);
         if (!dmn) {
             PushStatus(pfrom, STATUS_REJECTED, ERR_MN_LIST, connman);
             return;
@@ -68,7 +68,7 @@ void CCoinJoinServer::ProcessMessage(CNode* pfrom, const std::string& strCommand
                 if (!lockRecv) return;
 
                 for (const auto& q : vecCoinJoinQueue) {
-                    if (WITH_LOCK(activeSmartnodeInfoCs, return q.smartnodeOutpoint == activeSmartnodeInfo.outpoint)) {
+                    if (q.smartnodeOutpoint == activeSmartnodeInfo.outpoint) {
                         // refuse to create another queue this often
                         LogPrint(BCLog::COINJOIN, "DSACCEPT -- last dsq is still in queue, refuse to mix\n");
                         PushStatus(pfrom, STATUS_REJECTED, ERR_RECENT, connman);
@@ -334,7 +334,7 @@ void CCoinJoinServer::CommitFinalTransaction(CConnman& connman)
 
     // create and sign smartnode dstx transaction
     if (!CCoinJoin::GetDSTX(hashTx)) {
-        CCoinJoinBroadcastTx dstxNew(finalTransaction, WITH_LOCK(activeSmartnodeInfoCs, return activeSmartnodeInfo.outpoint), GetAdjustedTime());
+        CCoinJoinBroadcastTx dstxNew(finalTransaction, activeSmartnodeInfo.outpoint, GetAdjustedTime());
         dstxNew.Sign();
         CCoinJoin::AddDSTX(dstxNew);
     }
@@ -433,7 +433,7 @@ void CCoinJoinServer::ChargeFees(CConnman& connman)
 
     Being that mixing has "no fees" we need to have some kind of cost associated
     with using it to stop abuse. Otherwise it could serve as an attack vector and
-    allow endless transaction that would bloat Qubix and make it unusable. To
+    allow endless transaction that would bloat Theta and make it unusable. To
     stop these kinds of attacks 1 in 10 successful transactions are charged. This
     adds up to a cost of 0.001DRK per transaction on average.
 */
@@ -501,7 +501,7 @@ void CCoinJoinServer::CheckForCompleteQueue(CConnman& connman)
     if (nState == POOL_STATE_QUEUE && IsSessionReady()) {
         SetState(POOL_STATE_ACCEPTING_ENTRIES);
 
-        CCoinJoinQueue dsq(nSessionDenom, WITH_LOCK(activeSmartnodeInfoCs, return activeSmartnodeInfo.outpoint), GetAdjustedTime(), true);
+        CCoinJoinQueue dsq(nSessionDenom, activeSmartnodeInfo.outpoint, GetAdjustedTime(), true);
         LogPrint(BCLog::COINJOIN, "CCoinJoinServer::CheckForCompleteQueue -- queue is ready, signing and relaying (%s) " /* Continued */
                                      "with %d participants\n", dsq.ToString(), vecSessionCollaterals.size());
         dsq.Sign();
@@ -538,7 +538,7 @@ bool CCoinJoinServer::IsInputScriptSigValid(const CTxIn& txin)
     if (nTxInIndex >= 0) { //might have to do this one input at a time?
         txNew.vin[nTxInIndex].scriptSig = txin.scriptSig;
         LogPrint(BCLog::COINJOIN, "CCoinJoinServer::IsInputScriptSigValid -- verifying scriptSig %s\n", ScriptToAsmStr(txin.scriptSig).substr(0, 24));
-        // TODO we're using amount=0 here but we should use the correct amount. This works because Qubix ignores the amount while signing/verifying (only used in Bitcoin/Segwit)
+        // TODO we're using amount=0 here but we should use the correct amount. This works because Theta ignores the amount while signing/verifying (only used in Bitcoin/Segwit)
         if (!VerifyScript(txNew.vin[nTxInIndex].scriptSig, sigPubKey, SCRIPT_VERIFY_P2SH | SCRIPT_VERIFY_STRICTENC, MutableTransactionSignatureChecker(&txNew, nTxInIndex, 0))) {
             LogPrint(BCLog::COINJOIN, "CCoinJoinServer::IsInputScriptSigValid -- VerifyScript() failed on input %d\n", nTxInIndex);
             return false;
@@ -708,7 +708,7 @@ bool CCoinJoinServer::CreateNewSession(const CCoinJoinAccept& dsa, PoolMessage& 
 
     if (!fUnitTest) {
         //broadcast that I'm accepting entries, only if it's the first entry through
-        CCoinJoinQueue dsq(nSessionDenom, WITH_LOCK(activeSmartnodeInfoCs, return activeSmartnodeInfo.outpoint), GetAdjustedTime(), false);
+        CCoinJoinQueue dsq(nSessionDenom, activeSmartnodeInfo.outpoint, GetAdjustedTime(), false);
         LogPrint(BCLog::COINJOIN, "CCoinJoinServer::CreateNewSession -- signing and relaying new queue: %s\n", dsq.ToString());
         dsq.Sign();
         dsq.Relay(connman);

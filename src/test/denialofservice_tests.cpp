@@ -14,7 +14,7 @@
 #include <util.h>
 #include <validation.h>
 
-#include <test/test_qubix.h>
+#include <test/test_theta.h>
 
 #include <stdint.h>
 

@@ -1,39 +1,38 @@
-Qubix Core
+Theta Core
 ==========
 
-This is the official reference wallet for Qubix digital currency and comprises the backbone of the Qubix peer-to-peer network. You can [download Qubix Core](https://www.qubix.org/downloads/) or [build it yourself](#building) using the guides below.
+This is the official reference wallet for Theta digital currency and comprises the backbone of the Theta peer-to-peer network. You can [download Theta Core](https://github.com/thetaspere/theta/releases) or [build it yourself](#building) using the guides below.
 
 Running
 ---------------------
-The following are some helpful notes on how to run Qubix on your native platform.
+The following are some helpful notes on how to run Theta on your native platform.
 
 ### Unix
 
 Unpack the files into a directory and run:
 
-- `bin/qubix-qt` (GUI) or
-- `bin/qubixd` (headless)
+- `bin/theta-qt` (GUI) or
+- `bin/thetad` (headless)
 
 ### Windows
 
-Unpack the files into a directory, and then run qubix-qt.exe.
+Unpack the files into a directory, and then run theta-qt.exe.
 
 ### OS X
 
-Drag Qubix-Qt to your applications folder, and then run Qubix-Qt.
+Drag Theta-Qt to your applications folder, and then run Theta-Qt.
 
 ### Need Help?
 
-* See the [Qubix documentation](https://docs.qubix.org)
+* See the [Theta documentation](https://docs.thetaspere.com)
 for help and more information.
-* See the [Qubix Developer Documentation](https://qubix-docs.github.io/) 
+* See the [Theta Developer Documentation](https://thetaspere-docs.github.io/) 
 for technical specifications and implementation details.
-* Ask for help on [Qubix Nation Discord](http://qubixchat.org)
-* Ask for help on the [Qubix Forum](https://qubix.org/forum)
+* Ask for help on [Theta Nation Discord](https://discord.com/invite/3hCrHQa8hn)
 
 Building
 ---------------------
-The following are developer notes on how to build Qubix Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
+The following are developer notes on how to build Theta Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
 - [OS X Build Notes](build-osx.md)
 - [Unix Build Notes](build-unix.md)
@@ -43,7 +42,7 @@ The following are developer notes on how to build Qubix Core on your native plat
 
 Development
 ---------------------
-The Qubix Core repo's [root README](/README.md) contains relevant information on the development process and automated testing.
+The Theta Core repo's [root README](/README.md) contains relevant information on the development process and automated testing.
 
 - [Developer Notes](developer-notes.md)
 - [Release Notes](release-notes.md)
@@ -59,8 +58,7 @@ The Qubix Core repo's [root README](/README.md) contains relevant information on
 - [Benchmarking](benchmarking.md)
 
 ### Resources
-* Discuss on the [Qubix Forum](https://qubix.org/forum), in the Development & Technical Discussion board.
-* Discuss on [Qubix Nation Discord](http://qubixchat.org)
+* Discuss on [Theta Nation Discord](https://discord.com/invite/3hCrHQa8hn)
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)

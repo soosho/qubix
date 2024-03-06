@@ -1,5 +1,5 @@
 ---
-name: Qubix Build
+name: Theta Build
 on:
   push:
     branches:
@@ -10,10 +10,11 @@ on:
   pull_request:
     branches:
       - develop
+  workflow_dispatch:
 env:
-  COIN_NAME: qubix
-  BUILD_DIR: qubix-build
-  COMPRESS_DIR: qubix-compress
+  COIN_NAME: theta
+  BUILD_DIR: theta-build
+  COMPRESS_DIR: theta-compress
   TEST_LOG_ARTIFACT_DIR: test-logs
 jobs:
   checking-build-version:
@@ -100,8 +101,8 @@ jobs:
           make -j$(nproc)
           mkdir -p $BUILD_DIR
           mkdir -p ${BUILD_DIR}_not_strip
-          cp src/{qubix-cli,thetad,qt/qubix-qt} $BUILD_DIR/
-          mv src/{qubix-cli,thetad,qt/qubix-qt} ${BUILD_DIR}_not_strip/
+          cp src/{theta-cli,thetad,qt/theta-qt} $BUILD_DIR/
+          mv src/{theta-cli,thetad,qt/theta-qt} ${BUILD_DIR}_not_strip/
           strip $BUILD_DIR/*
       - name: build debug binary
         run: |
@@ -111,7 +112,7 @@ jobs:
           ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu --disable-tests --enable-debug
           make -j$(nproc)
           mkdir -p ${BUILD_DIR}_debug
-          mv src/{qubix-cli,thetad,qt/qubix-qt} ${BUILD_DIR}_debug/
+          mv src/{theta-cli,thetad,qt/theta-qt} ${BUILD_DIR}_debug/
       - name: generate checksum and compress
         run: |
           mkdir -p ${COMPRESS_DIR}
@@ -193,8 +194,8 @@ jobs:
           make -j$(nproc)
           mkdir -p $BUILD_DIR
           mkdir -p ${BUILD_DIR}_not_strip
-          cp src/{qubix-cli,thetad,qt/qubix-qt} $BUILD_DIR/
-          mv src/{qubix-cli,thetad,qt/qubix-qt} ${BUILD_DIR}_not_strip/
+          cp src/{theta-cli,thetad,qt/theta-qt} $BUILD_DIR/
+          mv src/{theta-cli,thetad,qt/theta-qt} ${BUILD_DIR}_not_strip/
           strip $BUILD_DIR/*
       - name: build debug binary
         run: |
@@ -204,7 +205,7 @@ jobs:
           ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu --disable-tests --enable-debug
           make -j$(nproc)
           mkdir -p ${BUILD_DIR}_debug
-          mv src/{qubix-cli,thetad,qt/qubix-qt} ${BUILD_DIR}_debug/
+          mv src/{theta-cli,thetad,qt/theta-qt} ${BUILD_DIR}_debug/
       - name: generate checksum and compress
         run: |
           mkdir -p ${COMPRESS_DIR}
@@ -285,8 +286,8 @@ jobs:
           make -j8
           mkdir -p $BUILD_DIR
           mkdir -p ${BUILD_DIR}_not_strip
-          cp src/{qubix-cli,thetad,qt/qubix-qt} $BUILD_DIR/
-          mv src/{qubix-cli,thetad,qt/qubix-qt} ${BUILD_DIR}_not_strip/
+          cp src/{theta-cli,thetad,qt/theta-qt} $BUILD_DIR/
+          mv src/{theta-cli,thetad,qt/theta-qt} ${BUILD_DIR}_not_strip/
           strip $BUILD_DIR/*
       - name: generate checksum and compress
         run: |
@@ -330,10 +331,10 @@ jobs:
         run: |
           make deploy
           mkdir -p macos-dmg
-          mv Qubix-Qt.dmg macos-dmg/
+          mv Theta-Qt.dmg macos-dmg/
           cd macos-dmg
-          echo "sha256: `shasum Qubix-Qt.dmg`" >> checksums.txt
-          echo "openssl-sha256: `openssl sha256 Qubix-Qt.dmg`" >> checksums.txt
+          echo "sha256: `shasum Theta-Qt.dmg`" >> checksums.txt
+          echo "openssl-sha256: `openssl sha256 Theta-Qt.dmg`" >> checksums.txt
           cd ..
       - name: Upload dmg file
         uses: actions/upload-artifact@v3
@@ -371,7 +372,7 @@ jobs:
         run: |
           make -j$(nproc)
           mkdir -p $BUILD_DIR
-          mv src/{qubix-cli,thetad,qt/qubix-qt} $BUILD_DIR/
+          mv src/{theta-cli,thetad,qt/theta-qt} $BUILD_DIR/
       - name: build debug binary
         run: |
           make clean
@@ -380,7 +381,7 @@ jobs:
           ./configure --prefix=`pwd`/depends/arm-linux-gnueabihf --disable-tests --enable-debug
           make -j$(nproc)
           mkdir -p ${BUILD_DIR}_debug
-          mv src/{qubix-cli,thetad,qt/qubix-qt} ${BUILD_DIR}_debug/
+          mv src/{theta-cli,thetad,qt/theta-qt} ${BUILD_DIR}_debug/
       - name: generate checksum and compress binary
         run: |
           mkdir -p ${COMPRESS_DIR}
@@ -449,7 +450,7 @@ jobs:
         run: |
           make -j$(nproc)
           mkdir -p $BUILD_DIR
-          mv src/{qubix-cli,thetad,qt/qubix-qt} $BUILD_DIR/
+          mv src/{theta-cli,thetad,qt/theta-qt} $BUILD_DIR/
       - name: build debug binary
         run: |
           make clean
@@ -458,7 +459,7 @@ jobs:
           ./configure --prefix=`pwd`/depends/aarch64-linux-gnu --disable-tests --enable-debug
           make -j$(nproc)
           mkdir -p ${BUILD_DIR}_debug
-          mv src/{qubix-cli,thetad,qt/qubix-qt} ${BUILD_DIR}_debug/
+          mv src/{theta-cli,thetad,qt/theta-qt} ${BUILD_DIR}_debug/
       - name: generate checksum and compress binary
         run: |
           mkdir -p ${COMPRESS_DIR}
@@ -531,8 +532,8 @@ jobs:
           make -j$(nproc)
           mkdir -p $BUILD_DIR
           mkdir -p ${BUILD_DIR}_not_strip
-          cp src/{qubix-cli.exe,thetad.exe,qt/qubix-qt.exe} $BUILD_DIR/
-          mv src/{qubix-cli.exe,thetad.exe,qt/qubix-qt.exe} ${BUILD_DIR}_not_strip/
+          cp src/{theta-cli.exe,thetad.exe,qt/theta-qt.exe} $BUILD_DIR/
+          mv src/{theta-cli.exe,thetad.exe,qt/theta-qt.exe} ${BUILD_DIR}_not_strip/
           strip $BUILD_DIR/*
       - name: generate checksum and compress binary
         run: |

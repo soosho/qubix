@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Qubix developer
+ * Copyright (c) 2020 The Theta developer
  * Distributed under the MIT software license, see the accompanying
  * file COPYING or http://www.opensource.org/licenses/mit-license.php.
  * 
@@ -18,7 +18,7 @@
 #include <limits.h>
 using namespace std;
 
-static const string DEFAULT_FOUNDER_ADDRESS = "1ML1wnr7pJvn8r9L9NppinFxhrCtayJg8V";
+static const string DEFAULT_FOUNDER_ADDRESS = "17QD5yabkxChpGQSPNnwRfK3n8BFneDeo3";
 struct FounderRewardStructure {
 	int blockHeight;
 	int rewardPercentage;

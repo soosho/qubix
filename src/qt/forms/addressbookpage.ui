@@ -157,7 +157,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../qubix.qrc"/>
+  <include location="../theta.qrc"/>
  </resources>
  <connections/>
 </ui>

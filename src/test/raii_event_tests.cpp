@@ -12,7 +12,7 @@
 
 #include <support/events.h>
 
-#include <test/test_qubix.h>
+#include <test/test_theta.h>
 
 #include <vector>
 

@@ -13,7 +13,7 @@
 - (NSString *)__bundleIdentifier
 {
     if (self == [NSBundle mainBundle]) {
-        return @"org.qubix.Qubix-Qt";
+        return @"org.theta.Theta-Qt";
     } else {
         return [self __bundleIdentifier];
     }

@@ -6,7 +6,7 @@
 #include <support/cleanse.h>
 
 #if defined(HAVE_CONFIG_H)
-#include <config/qubix-config.h>
+#include <config/theta-config.h>
 #endif
 
 #ifdef WIN32

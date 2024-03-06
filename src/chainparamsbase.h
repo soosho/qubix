@@ -10,8 +10,8 @@
 #include <vector>
 
 /**
- * CBaseChainParams defines the base parameters (shared between qubix-cli and qubixd)
- * of a given instance of the Qubix system.
+ * CBaseChainParams defines the base parameters (shared between theta-cli and thetad)
+ * of a given instance of the Theta system.
  */
 class CBaseChainParams
 {

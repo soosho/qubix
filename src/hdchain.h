@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2019 The Dash Core developers
-// Copyright (c) 2020-2022 The Qubix developers
+// Copyright (c) 2020-2022 The Theta developers
 // Distributed under the MIT software license, see the accompanying
-#ifndef QUBIX_HDCHAIN_H
-#define QUBIX_HDCHAIN_H
+#ifndef THETA_HDCHAIN_H
+#define THETA_HDCHAIN_H
 
 #include <key.h>
 #include <sync.h>
@@ -148,4 +148,4 @@ public:
     std::string GetKeyPath() const;
 };
 
-#endif // QUBIX_HDCHAIN_H
+#endif // THETA_HDCHAIN_H

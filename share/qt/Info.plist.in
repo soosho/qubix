@@ -11,7 +11,7 @@
   </array>
 
   <key>CFBundleIconFile</key>
-  <string>qubix.icns</string>
+  <string>dash.icns</string>
 
   <key>CFBundlePackageType</key>
   <string>APPL</string>
@@ -26,16 +26,16 @@
   <string>????</string>
 
   <key>CFBundleExecutable</key>
-  <string>Qubix-Qt</string>
+  <string>Theta-Qt</string>
 
   <key>CFBundleName</key>
-  <string>Qubix-Qt</string>
+  <string>Theta-Qt</string>
 
   <key>LSHasLocalizedDisplayName</key>
   <true/>
 
   <key>CFBundleIdentifier</key>
-  <string>org.qubix.Qubix-Qt</string>
+  <string>org.theta.Theta-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>
@@ -43,10 +43,10 @@
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>CFBundleURLName</key>
-      <string>org.qubix.QubixPayment</string>
+      <string>org.theta.ThetaPayment</string>
       <key>CFBundleURLSchemes</key>
       <array>
-        <string>qubix</string>
+        <string>theta</string>
       </array>
     </dict>
   </array>
@@ -55,9 +55,9 @@
   <array>
     <dict>
       <key>UTTypeIdentifier</key>
-      <string>org.qubix.paymentrequest</string>
+      <string>org.theta.paymentrequest</string>
       <key>UTTypeDescription</key>
-      <string>Qubix payment request</string>
+      <string>Theta payment request</string>
       <key>UTTypeConformsTo</key>
       <array>
         <string>public.data</string>
@@ -65,10 +65,10 @@
       <key>UTTypeTagSpecification</key>
       <dict>
         <key>public.mime-type</key>
-        <string>application/x-qubix-payment-request</string>
+        <string>application/x-theta-payment-request</string>
         <key>public.filename-extension</key>
         <array>
-          <string>qubixmentrequest</string>
+          <string>thetamentrequest</string>
         </array>
       </dict>
     </dict>
@@ -81,7 +81,7 @@
       <string>Editor</string>
       <key>LSItemContentTypes</key>
       <array>
-        <string>org.qubix.paymentrequest</string>
+        <string>org.theta.paymentrequest</string>
       </array>
       <key>LSHandlerRank</key>
       <string>Owner</string>

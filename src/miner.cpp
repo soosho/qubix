@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2019 The Dash Core developers
-// Copyright (c) 2020-2022 The Qubix developers
+// Copyright (c) 2020-2022 The Theta developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -47,7 +47,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// QubixMiner
+// ThetaMiner
 //
 
 //
@@ -530,11 +530,11 @@ static bool ProcessBlockFound(const CBlock* pblock, const CChainParams& chainpar
     return true;
 }
 
-void static QubixMiner(const CChainParams& chainparams)
+void static ThetaMiner(const CChainParams& chainparams)
 {
-    LogPrintf("QubixMiner -- started\n");
+    LogPrintf("ThetaMiner -- started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread("qubix-miner");
+    RenameThread("theta-miner");
 
     unsigned int nExtraNonce = 0;
 
@@ -543,11 +543,10 @@ void static QubixMiner(const CChainParams& chainparams)
 
     #ifdef ENABLE_WALLET
         pWallet = GetFirstWallet();
-
-        if (!EnsureWalletIsAvailable(pWallet, false)) {
-            LogPrintf("QubixMiner -- Wallet not available\n");
-        }
     #endif
+    if (!EnsureWalletIsAvailable(pWallet, false)) {
+        LogPrintf("ThetaMiner -- Wallet not available\n");
+    }
 
     if (pWallet == NULL)
     {
@@ -602,7 +601,7 @@ void static QubixMiner(const CChainParams& chainparams)
 
             if (!pblocktemplate.get())
             {
-                LogPrintf("QubixMiner -- Keypool ran out, please call keypoolrefill before restarting the mining thread\n");
+                LogPrintf("ThetaMiner -- Keypool ran out, please call keypoolrefill before restarting the mining thread\n");
                 return;
             }
             CBlock *pblock = &pblocktemplate->block;
@@ -612,7 +611,7 @@ void static QubixMiner(const CChainParams& chainparams)
             LogPrintf("Algos: %s\n",hashSelection.getHashSelectionString());
             IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
 
-            LogPrintf("QubixMiner -- Running miner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
+            LogPrintf("ThetaMiner -- Running miner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
                 ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
             //
@@ -630,7 +629,7 @@ void static QubixMiner(const CChainParams& chainparams)
                     {
                         // Found a solution
                         SetThreadPriority(THREAD_PRIORITY_NORMAL);
-                        LogPrintf("QubixMiner:\n  proof-of-work found\n  hash: %s\n  target: %s\n", hash.GetHex(), hashTarget.GetHex());
+                        LogPrintf("ThetaMiner:\n  proof-of-work found\n  hash: %s\n  target: %s\n", hash.GetHex(), hashTarget.GetHex());
                         ProcessBlockFound(pblock, chainparams, hash);
                         SetThreadPriority(THREAD_PRIORITY_LOWEST);
                         coinbaseScript->KeepScript();
@@ -646,7 +645,7 @@ void static QubixMiner(const CChainParams& chainparams)
                     if (nHashesDone % 1000 == 0) {   //Calculate hashing speed
                         nHashesPerSec = nHashesDone / (((GetTimeMicros() - nMiningTimeStart) / 1000000.00) + 1);
                         LogPrintf("nNonce: %d, hashRate %f\n",pblock->nNonce, nHashesPerSec);
-                        //LogPrintf("QubixMiner:\n  proof-of-work in progress \n  hash: %s\n  target: %s\n, different=%s\n", hash.GetHex(), hashTarget.GetHex(), (UintToArith256(hash) - hashTarget));
+                        //LogPrintf("ThetaMiner:\n  proof-of-work in progress \n  hash: %s\n  target: %s\n, different=%s\n", hash.GetHex(), hashTarget.GetHex(), (UintToArith256(hash) - hashTarget));
                     }
                     if ((pblock->nNonce & 0xFF) == 0)
                         break;
@@ -678,17 +677,17 @@ void static QubixMiner(const CChainParams& chainparams)
     }
     catch (const boost::thread_interrupted&)
     {
-        LogPrintf("QubixMiner -- terminated\n");
+        LogPrintf("ThetaMiner -- terminated\n");
         throw;
     }
     catch (const std::runtime_error &e)
     {
-        LogPrintf("QubixMiner -- runtime error: %s\n", e.what());
+        LogPrintf("ThetaMiner -- runtime error: %s\n", e.what());
         return;
     }
 }
 
-int GenerateQubixs(bool fGenerate, int nThreads, const CChainParams& chainparams)
+int GenerateThetas(bool fGenerate, int nThreads, const CChainParams& chainparams)
 {
 
     static boost::thread_group* minerThreads = NULL;
@@ -716,7 +715,7 @@ int GenerateQubixs(bool fGenerate, int nThreads, const CChainParams& chainparams
     nHashesPerSec = 0;
 
     for (int i = 0; i < nThreads; i++){
-        minerThreads->create_thread(boost::bind(&QubixMiner, boost::cref(chainparams)));
+        minerThreads->create_thread(boost::bind(&ThetaMiner, boost::cref(chainparams)));
     }
     return(numCores);
 }

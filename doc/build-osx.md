@@ -38,23 +38,23 @@ Next, follow the instructions in [build-generic](build-generic.md)
 Running
 -------
 
-Qubix Core is now available at `./src/qubixd`
+Theta Core is now available at `./src/thetad`
 
 Before running, it's recommended you create an RPC configuration file.
 
-    echo -e "rpcuser=qubixrpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/QubixCore/qubix.conf"
+    echo -e "rpcuser=thetarpc\nrpcpassword=$(xxd -l 16 -p /dev/urandom)" > "/Users/${USER}/Library/Application Support/ThetaCore/theta.conf"
 
-    chmod 600 "/Users/${USER}/Library/Application Support/QubixCore/qubix.conf"
+    chmod 600 "/Users/${USER}/Library/Application Support/ThetaCore/theta.conf"
 
-The first time you run qubixd, it will start downloading the blockchain. This process could take several hours.
+The first time you run thetad, it will start downloading the blockchain. This process could take several hours.
 
 You can monitor the download process by looking at the debug.log file:
 
-    tail -f $HOME/Library/Application\ Support/QubixCore/debug.log
+    tail -f $HOME/Library/Application\ Support/ThetaCore/debug.log
 
 Other commands:
 -------
 
-    ./src/qubixd -daemon # Starts the qubix daemon.
-    ./src/qubix-cli --help # Outputs a list of command-line options.
-    ./src/qubix-cli help # Outputs a list of RPC commands when the daemon is running.
+    ./src/thetad -daemon # Starts the theta daemon.
+    ./src/theta-cli --help # Outputs a list of command-line options.
+    ./src/theta-cli help # Outputs a list of RPC commands when the daemon is running.

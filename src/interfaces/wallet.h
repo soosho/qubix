@@ -41,7 +41,7 @@ using WalletOrderForm = std::vector<std::pair<std::string, std::string>>;
 using WalletValueMap = std::map<std::string, std::string>;
 
 namespace CoinJoin {
-//! Interface for the wallet constrained src/coinjoin part of a qubix node (qubixd process).
+//! Interface for the wallet constrained src/coinjoin part of a theta node (thetad process).
 class Client
 {
 public:
@@ -204,7 +204,7 @@ public:
 
     virtual std::map<CTxDestination, CAmount> GetAddressBalances() = 0;
     //! Get balances if possible without blocking.
-    virtual bool tryGetBalances(WalletBalances& balances) = 0;
+    virtual bool tryGetBalances(WalletBalances& balances, int& num_blocks) = 0;
 
     //! Get balance.
     virtual CAmount getBalance() = 0;
