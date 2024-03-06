@@ -1,0 +1,25 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="ar">locale/qubix_ar.qm</file>
+        <file alias="bg">locale/qubix_bg.qm</file>
+        <file alias="de">locale/qubix_de.qm</file>
+        <file alias="en">locale/qubix_en.qm</file>
+        <file alias="es">locale/qubix_es.qm</file>
+        <file alias="fi">locale/qubix_fi.qm</file>
+        <file alias="fr">locale/qubix_fr.qm</file>
+        <file alias="it">locale/qubix_it.qm</file>
+        <file alias="ja">locale/qubix_ja.qm</file>
+        <file alias="ko">locale/qubix_ko.qm</file>
+        <file alias="nl">locale/qubix_nl.qm</file>
+        <file alias="pl">locale/qubix_pl.qm</file>
+        <file alias="pt">locale/qubix_pt.qm</file>
+        <file alias="ro">locale/qubix_ro.qm</file>
+        <file alias="ru">locale/qubix_ru.qm</file>
+        <file alias="sk">locale/qubix_sk.qm</file>
+        <file alias="th">locale/qubix_th.qm</file>
+        <file alias="tr">locale/qubix_tr.qm</file>
+        <file alias="vi">locale/qubix_vi.qm</file>
+        <file alias="zh_CN">locale/qubix_zh_CN.qm</file>
+        <file alias="zh_TW">locale/qubix_zh_TW.qm</file>
+    </qresource>
+</RCC>

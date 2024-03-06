@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Qubix Core
+Comment=Qubix P2P Cryptocurrency
+Comment[de]=Verbinde mit dem Qubix peer-to-peer Netzwerk
+Comment[fr]=Qubix, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Qubix, eşten eşe kriptografik sanal para birimi
+Exec=qubix-qt %u
+Terminal=false
+Type=Application
+Icon=qubix128
+MimeType=x-scheme-handler/qubix;
+Categories=Office;Finance;

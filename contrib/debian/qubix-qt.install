@@ -1,0 +1,6 @@
+usr/local/bin/qubix-qt usr/bin
+share/pixmaps/qubix32.xpm usr/share/pixmaps
+share/pixmaps/qubix16.xpm usr/share/pixmaps
+share/pixmaps/qubix128.png usr/share/pixmaps
+debian/qubix-qt.desktop usr/share/applications
+debian/qubix-qt.protocol usr/share/kde4/services/
