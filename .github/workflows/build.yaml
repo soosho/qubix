@@ -11,7 +11,6 @@ on:
     branches:
       - develop
   workflow_dispatch:
-
 env:
   COIN_NAME: qubix
   BUILD_DIR: qubix-build
@@ -26,7 +25,7 @@ jobs:
         run: |
           echo "checking out $GITHUB_REF trigger by $GITHUB_EVENT_NAME"
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       - name: Read build.properties key for master
         if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/master'}}
         id: release-version
@@ -72,9 +71,9 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       - name: Getting Version
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v1
         with:
           name: version
       - name: Extract version
@@ -83,7 +82,6 @@ jobs:
       - name: Install Required Packages
         run: |
           echo "building $BUILD_VERSION version"
-          sudo chmod -R 777 depends
           sudo apt-get update -y
           sudo apt-get upgrade -y
           sudo apt-get install curl build-essential libtool autotools-dev automake pkg-config python3 bsdmainutils cmake
@@ -170,9 +168,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       - name: Getting Version
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v1
         with:
           name: version
       - name: Extract version
@@ -180,7 +178,6 @@ jobs:
           cat version/version.txt >> $GITHUB_ENV
       - name: Install Required Packages
         run: |
-          sudo chmod -R 777 depends
           sudo apt-get update -y
           sudo apt-get upgrade -y
           sudo apt-get install curl build-essential libtool autotools-dev automake pkg-config python3 bsdmainutils cmake
@@ -264,9 +261,9 @@ jobs:
     runs-on: macos-11
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       - name: Getting Version
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v1
         with:
           name: version
       - name: Extract version
@@ -274,7 +271,6 @@ jobs:
           cat version/version.txt >> $GITHUB_ENV
       - name: Install Required Packages
         run: |
-          sudo chmod -R 777 depends
           brew install automake libtool pkg-config miniupnpc librsvg libnatpmp zeromq python
           pip3 install ds_store mac_alias
       - name: build depends
@@ -351,9 +347,9 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       - name: Getting Version
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v1
         with:
           name: version
       - name: Extract version
@@ -361,7 +357,6 @@ jobs:
           cat version/version.txt >> $GITHUB_ENV
       - name: Install Required Packages
         run: |
-          sudo chmod -R 777 depends
           sudo apt-get update -y
           sudo apt-get upgrade -y
           sudo apt-get install curl build-essential libtool g++-arm-linux-gnueabihf autotools-dev automake pkg-config python3 bsdmainutils cmake
@@ -430,9 +425,9 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       - name: Getting Version
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v1
         with:
           name: version
       - name: Extract version
@@ -508,9 +503,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       - name: Getting Version
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v1
         with:
           name: version
       - name: Extract version
@@ -518,7 +513,6 @@ jobs:
           cat version/version.txt >> $GITHUB_ENV
       - name: Install Required Packages
         run: |
-          sudo chmod -R 777 depends
           sudo apt-get update -y
           sudo apt-get upgrade -y
           sudo apt-get install curl build-essential libtool autotools-dev automake pkg-config python3 bsdmainutils cmake
