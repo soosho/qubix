@@ -10,6 +10,8 @@ on:
   pull_request:
     branches:
       - develop
+  workflow_dispatch:
+
 env:
   COIN_NAME: qubix
   BUILD_DIR: qubix-build
