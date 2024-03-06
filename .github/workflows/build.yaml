@@ -83,6 +83,7 @@ jobs:
       - name: Install Required Packages
         run: |
           echo "building $BUILD_VERSION version"
+          sudo chmod -R 777 depends
           sudo apt-get update -y
           sudo apt-get upgrade -y
           sudo apt-get install curl build-essential libtool autotools-dev automake pkg-config python3 bsdmainutils cmake
@@ -179,6 +180,7 @@ jobs:
           cat version/version.txt >> $GITHUB_ENV
       - name: Install Required Packages
         run: |
+          sudo chmod -R 777 depends
           sudo apt-get update -y
           sudo apt-get upgrade -y
           sudo apt-get install curl build-essential libtool autotools-dev automake pkg-config python3 bsdmainutils cmake
@@ -272,6 +274,7 @@ jobs:
           cat version/version.txt >> $GITHUB_ENV
       - name: Install Required Packages
         run: |
+          sudo chmod -R 777 depends
           brew install automake libtool pkg-config miniupnpc librsvg libnatpmp zeromq python
           pip3 install ds_store mac_alias
       - name: build depends
@@ -358,6 +361,7 @@ jobs:
           cat version/version.txt >> $GITHUB_ENV
       - name: Install Required Packages
         run: |
+          sudo chmod -R 777 depends
           sudo apt-get update -y
           sudo apt-get upgrade -y
           sudo apt-get install curl build-essential libtool g++-arm-linux-gnueabihf autotools-dev automake pkg-config python3 bsdmainutils cmake
@@ -514,6 +518,7 @@ jobs:
           cat version/version.txt >> $GITHUB_ENV
       - name: Install Required Packages
         run: |
+          sudo chmod -R 777 depends
           sudo apt-get update -y
           sudo apt-get upgrade -y
           sudo apt-get install curl build-essential libtool autotools-dev automake pkg-config python3 bsdmainutils cmake
